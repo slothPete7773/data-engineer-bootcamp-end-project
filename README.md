@@ -21,11 +21,11 @@ AIRFLOW_UID=501
 _PIP_ADDITIONAL_REQUIREMENTS=astronomer-cosmos==0.6.5 dbt-core==1.5.0 dbt-bigquery==1.5.0
 ```
 
-## BigQuery Connection
+## Google Cloud Connection
 
 For the Keyfile JSON, we'll copy the content in the keyfile and paste to it.
 
-![BigQuery Connection in Airflow](./assets/bigquery-connection-in-airflow.png)
+![Google Clod Connection in Airflow](./assets/bigquery-connection-in-airflow.png)
 
 ## Setup Instruction
 
