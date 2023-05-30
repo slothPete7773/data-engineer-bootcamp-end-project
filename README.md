@@ -67,7 +67,7 @@ Normally, it should be building the images first, then spining up the containers
 $ docker compose up
 ```
 
-Wait until the Airflow Scheduler says that it is up and running in host [http://0.0.0.0:8080](http://0.0.0.0:8080), and then it can be access through the browser via the previous host.
+Wait until the Airflow Scheduler says that it is up and running in host [http://0.0.0.0:8080](http://0.0.0.0:8080), or [http://localhost:8080](http://localhost:8080), and then it can be access through the browser via the previous host.
 
 The default username and password are defined at this location in `docker-compose.yml` file.
 
