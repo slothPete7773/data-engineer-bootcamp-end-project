@@ -77,3 +77,25 @@ username=airflow
 password=airflow
 ```
 ![airflow-default-credentials](./assets/airflow-default-credential.png)
+
+## Replicate workflow
+
+After finished setting up the instances, execute into the Airflow Scheduler to execute backfilling operation. 
+Because the data only exists in a period of time in the past.
+```sh
+# Can check Airflow Scheduler container ID with following
+# And look for `CONTAINER ID` of airflow-scheduler
+$ docker ps 
+
+# Get into the Airflow Scheduler instance
+$ docker exec -it {Airflow Scheduler container ID} bash
+```
+
+Once inside the container instance, run the following command to backfil the data, running the DAG with past date.
+Where the date that contains data is from 24-05-2023 to 27-05-2023
+```sh
+airflow dags backfill -s {YYYY-MM-DD start-date} -e {YYYY-MM-DD end-date} {dag_id} --reset-dagruns
+
+# Actual commandd
+airflow dags backfill -s 24-05-2023 -e 27-05-2023 {dag_id} --reset-dagruns
+``` 
