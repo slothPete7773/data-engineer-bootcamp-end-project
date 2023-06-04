@@ -10,6 +10,7 @@ from airflow.operators.python import PythonOperator, BranchPythonOperator
 from airflow.operators.bash import BashOperator
 from airflow.providers.postgres.hooks.postgres import PostgresHook
 
+import great_expectations as ge
 from google.cloud import storage, bigquery
 from google.oauth2 import service_account
 
@@ -90,7 +91,11 @@ def _extract_data_from_postgres(**context):
             for item in query_result:
                 writer.writerow(item)
                 logging.info(item)
-        return "upload_to_gcs"
+        
+        rows_count = len(query_result)
+        context['ti'].xcom_push(key="row_count", value=rows_count)
+
+        return "validate_row_count"
     else:
         return "do_nothing"
 
@@ -117,6 +122,18 @@ def _upload_to_gcs(**context):
     if (blob_cursor.exists()):
         print(f'successfully upload {source_path} to {destination_path} in bucket {GCS_BUCKET}')
 
+def _validate_row_count(**context):
+    ds = context['data_interval_start'].to_date_string()
+    source_file_path = f"{DATA_FOLDER}/{DATA}-{ds}.csv"
+
+    row_count = context['ti'].xcom_pull(task_ids='extract_data_from_postgres', key='row_count')
+    msg = f"pulled row count = {row_count}"
+    logging.info(msg)
+
+    df = ge.read_csv(source_file_path)
+    results = df.expect_table_row_count_to_equal(value=row_count)
+    logging.info(results)
+    assert results['success'] is True
 
 
 
@@ -137,13 +154,17 @@ with DAG(
         python_callable=_extract_data_from_postgres,
     )
 
+    validate_row_count = PythonOperator(
+        task_id="validate_row_count",
+        python_callable=_validate_row_count
+    )
+
     upload_to_gcs = PythonOperator(
         task_id="upload_to_gcs",
         python_callable=_upload_to_gcs,
         outlets=[DATASET]
     )
     
-
     do_nothing = EmptyOperator(
         task_id="do_nothing"
     )
@@ -151,5 +172,6 @@ with DAG(
     end = EmptyOperator(
         task_id="end"
     )
-    extract_data_from_postgres >> upload_to_gcs >> end
+
+    extract_data_from_postgres >> validate_row_count >> upload_to_gcs >> end
     extract_data_from_postgres >> do_nothing >> end
