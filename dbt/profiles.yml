@@ -1,0 +1,42 @@
+railwaymovement:
+
+  outputs:
+    # dbt_slothpete_practice:
+    #   type: postgres
+    #   threads: 1
+    #   host: localhost
+    #   port: 5432
+    #   user: postgres
+    #   pass: "{{ env_var('DBT_ENV_SECRET_PG_PASSWORD') }}"
+    #   dbname: greenery
+    #   schema: dbt_zkan
+
+    # dbt_slothpete_practice_prod:
+    #   type: postgres
+    #   threads: 1
+    #   host: localhost
+    #   port: 5432
+    #   user: postgres
+    #   pass: "{{ env_var('DBT_ENV_SECRET_PG_PASSWORD') }}"
+    #   dbname: greenery
+    #   schema: prod
+
+    dbt_slothpete_practice_bigquery:
+      type: bigquery
+      method: service-account
+      project: data-engineer-bootcamp-384606 
+      dataset: prac_dbt_end_proj
+      threads: 1
+      keyfile: D:\programming\data-engineering-end2end-project\dags\data-engineer-bootcamp-384606-0cab607d41e8.json
+      location: asia-southeast1
+
+    dbt_slothpete_prod_bigquery:
+      type: bigquery
+      method: service-account
+      project: data-engineer-bootcamp-384606 
+      dataset: prod_prac_dbt_end_proj
+      threads: 1
+      keyfile: D:\programming\data-engineering-end2end-project\dags\data-engineer-bootcamp-384606-0cab607d41e8.json
+      location: asia-southeast1
+
+  target: dbt_slothpete_practice_bigquery

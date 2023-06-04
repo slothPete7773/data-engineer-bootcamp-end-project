@@ -35,3 +35,13 @@ models:
     # Config indicated by + and applies to all files under models/example/
     example:
       +materialized: view
+    staging:
+      railwaymovement:
+        +materialized: view
+        +schema: staging
+    intermediate:
+      +materialized: view
+      +schema: intermediate
+    marts:
+      +materialized: view
+      +schema: reporting

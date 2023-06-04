@@ -1,0 +1,17 @@
+version: 2
+
+sources:
+  - name: railwaymovement
+    schema: prac_dbt_end_proj
+    database: data-engineer-bootcamp-384606
+
+    tables:
+      - name: movements
+        description: The movements of all train on the networkrailway data.
+        columns:
+          - name: event_type
+            description: Event type
+        freshness:
+          warn_after: {count: 1, period: hour}
+          error_after: {count: 2, period: hour}
+        loaded_at_field: actual_timestamp
