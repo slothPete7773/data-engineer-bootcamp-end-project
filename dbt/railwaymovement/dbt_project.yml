@@ -45,3 +45,9 @@ models:
     marts:
       +materialized: view
       +schema: reporting
+      business_questions:
+        +schema: quiz
+
+seeds:
+  railwaymovement:
+    +schema: seed_data

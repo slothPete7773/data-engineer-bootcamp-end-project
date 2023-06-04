@@ -1,5 +1,9 @@
 # Scheduling dbt with Airflow
 
+## Reference for more detailed instruction 
+
+[zkan's instruction](https://zkan.notion.site/Day-6-Workshop-Instruction-3cd604c28cd546789648850d3ec3d063)
+
 ## Getting Started
 
 Before we run Airflow, let's create these folders first:
