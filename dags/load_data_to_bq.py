@@ -20,7 +20,8 @@ DATA = "movements"
 LOCATION = "asia-southeast1"
 PROJECT_ID = "data-engineer-bootcamp-384606"
 GCS_BUCKET = "personal-practice-networkrail-bootcamp"
-BIGQUERY_DATASET = "personal_practice_networkrail_bootcamp"
+# BIGQUERY_DATASET = "personal_practice_networkrail_bootcamp"
+BIGQUERY_DATASET = "prac_dbt_end_proj"
 KEYFILE = f"{DAGS_FOLDER}/data-engineer-bootcamp-384606-0cab607d41e8.json"
 DATASET = Dataset("gcs://personal-practice-networkrail-bootcamp/networkrail/movements")
 
